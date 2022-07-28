@@ -118,6 +118,19 @@ def buttons():
     entry_item_held=Entry(main_window)
     entry_item_held.grid(column=1,row=2)
     Label(main_window,text='Number Hired').grid(column=0,row=3,sticky=E)
+    #creating a combo box for the items held
+    item_held=StringVar()
+    entry_item_held=ttk.Combobox(main_window,textvariable=item_held,state='readonly',
+                                 values=('Table, Chair and Linen',
+                                         'Crockery and Tableware',
+                                         'LED/Neon lights','Backdrop',
+                                         'Glassware and Bar','Prop',
+                                         'Kids party','Chalkboard and signage',
+                                         'Wedding and aisle','Ballon garland',
+                                         'Themed decoration','Helium and Balloons',
+                                         'Catering'),width=17)
+    entry_item_held.grid(column=1,row=2)
+    Label(main_window,text='Number Hired').grid(column=0,row=3,sticky=E)
     entry_number_hired=Entry(main_window)
     entry_number_hired.grid(column=1,row=3)
     #row deleting
