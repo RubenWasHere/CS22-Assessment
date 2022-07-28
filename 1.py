@@ -19,16 +19,15 @@ def print_details():
     Label(main_window,text='Receipt Number').grid(column=1,row=7)
     Label(main_window,text='Item').grid(column=2,row=7)
     Label(main_window,text='Quantity').grid(column=3,row=7)
-
+    Label(main_window,text='Row').grid(column=4,row=7)
 
     #Adding each item in the list into their own row
     while info < total_entries:
-        Label(main_window,text=info).grid(column=0,row=info+8)
+        Label(main_window,text=info).grid(column=4,row=info+8)
         Label(main_window,text=(details[info][0])).grid(column=0,row=info+8)
         Label(main_window,text=(details[info][1])).grid(column=1,row=info+8)
         Label(main_window,text=(details[info][2])).grid(column=2,row=info+8)
         Label(main_window,text=(details[info][3])).grid(column=3,row=info+8)
-        Label(main_window,text=(details[info][4])).grid(column=4,row=info+8)
         info+= 1
 
 #Checking if inputs are valid
