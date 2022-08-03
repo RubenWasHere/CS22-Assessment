@@ -1,8 +1,11 @@
 """Julie's party hire"""
 
 #import tkinter to make a GUI
+from curses.ascii import isalpha, isdigit
 from tkinter import *
 from tkinter import ttk
+from tokenize import Number
+
 
 window_width = 300
 window_height = 200
@@ -16,7 +19,7 @@ def print_details():
     global details, total_entries, info
     info=0
     #making column headings
-    Label(main_window,text='Full Name').grid(column=0,row=7)
+    Label(main_window,text='Name').grid(column=0,row=7)
     Label(main_window,text='Receipt Number').grid(column=1,row=7)
     Label(main_window,text='Item Hired',).grid(column=2,row=7)
     Label(main_window,text='Quantity').grid(column=3,row=7)
@@ -65,6 +68,7 @@ def delete_row():
     Label(main_window, text="                                                       ").grid(column=4, row=info+7)
     #print every item in the list
     print_details()
+    
 #creating buttons and labels
 def buttons():
     #variables used
@@ -81,6 +85,7 @@ def buttons():
     entry_receipt_number = Entry(main_window)
     entry_receipt_number.grid(column=1,row=3)
     Label(main_window,text='Item Hired').grid(column=0,row=4)
+
     #creating a combo box for the items held
     item_held=StringVar()
     entry_item_held=ttk.Combobox(main_window,textvariable=item_held,state='readonly',
@@ -96,11 +101,13 @@ def buttons():
     Label(main_window,text='Number Hired').grid(column=0,row=5)
     entry_number_hired=Entry(main_window)
     entry_number_hired.grid(column=1,row=5)
+
     #row deleting
     Label(main_window,text='Delete Row #').grid(column=0,row=6)
     delete_item=Entry(main_window)
     delete_item.grid(column=1,row=6)
     Button(main_window,text='Delete Row',command=delete_row,width=10).grid(column=2,row=6,sticky=W)
+
 #checking if the inputs are all valid
 def check():
     #variables used
@@ -110,20 +117,32 @@ def check():
     Label(main_window, text="                                                           ") .grid(column=2, row=3)
     Label(main_window, text="                                                           ") .grid(column=2, row=4)
     Label(main_window, text="                                                           ") .grid(column=2, row=5)
-    #checking that costumer name is not blank, set error text if blank
-    if len(entry_customer_name.get())==0:
-        Label(main_window,fg='orange',text='Please enter your name').grid(column=2,row=2,sticky=W)
-        entry_check=1
+
+
+    #checking that costumer name is not blank or contains numbers symbols or spaces, set error text if blank or contains numbers
+
+    while True:
+        if entry_customer_name.get().isalpha():
+            break
+        else: 
+            Label(main_window,fg='orange',text='Letters only').grid(column=2,row=2,sticky=W)
+            entry_check=1
+            break         
         
-    #checking that receipt is not blank and sending error if its blank
-    if len(entry_receipt_number.get())==0:
-        Label(main_window,fg='orange',text='Please enter your receipt number').grid(column=2,row=3,sticky=W)
+
+    #checking that receipt is not blank or contains letters or spaces and sending error if its blank or contains letters or spaces
+    try:
+        int(entry_receipt_number.get()) != isdigit
+    except ValueError:
+        Label(main_window,fg='orange',text='Number only').grid(column=2,row=3,sticky=W)
         entry_check=1
+
     #checking that item held is not blank and sending error if its blank
     if len(entry_item_held.get()) == 0:
         Label(main_window,fg='orange',text='Please choose your item').grid(column=2,row=4,sticky=W)
         entry_check=1
-    #checking that number hired is not blank and sending error if its blank
+
+    #checking that number hired is not blank or contains letters, symbols or spaces and sending error if its blank contains letters, symbols or spaces
     if (entry_number_hired.get().isdigit()):
         if int(entry_number_hired.get()) < 1 or int(entry_number_hired.get()) > 500:
             Label(main_window,fg='orange',text='1 to 500 only').grid(column=2,row=5,sticky=W)
@@ -131,6 +150,7 @@ def check():
     else:
         Label(main_window,fg='orange',text='1 to 500 only').grid(column=2,row=5,sticky=W)
         entry_check=1
+
     if entry_check ==0:
         append_details()
 
